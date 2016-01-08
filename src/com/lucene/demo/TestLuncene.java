@@ -27,18 +27,29 @@ import org.apache.lucene.util.Version;
 import org.junit.Test;
 
 public class TestLuncene {
-
+	/**
+	 * 使用IndexWriter 创建索引
+	 * @throws IOException
+	 */
 	@Test
 	public void testCreateIndex() throws IOException {
-		//
+		//索引存放的位置
 		Directory directory=FSDirectory.open(new File("indexDir/"));
-		
+		//lucene当前匹配的版本
 		Version matchVersion=Version.LUCENE_44;
+		//分词器
 		Analyzer analyzer=new StandardAnalyzer(matchVersion);
+		//索引写入的配置
 		IndexWriterConfig indexWriterConfig=new IndexWriterConfig(matchVersion, analyzer);
+		//构建操作索引的类
 		IndexWriter indexWriter=new IndexWriter(directory, indexWriterConfig);
-		
+		//索引库里面的要遵守一定的结构，
 		Document document=new Document();
+		/**
+		 * arg0:字段的名称
+		 * arg1:字段的值
+		 * arg3:该字段是否在索引中存储
+		 */
 		IndexableField field=new IntField("id", 1, Store.YES);
 		IndexableField title=new StringField("title", "Hello", Store.YES);
 		IndexableField content=new TextField("content", "woshishisij", Store.YES);
@@ -49,12 +60,22 @@ public class TestLuncene {
 		indexWriter.addDocument(document);
 		indexWriter.close();
 	}
+	/**
+	 * 使用IndexSearcher进行搜索
+	 * @throws IOException
+	 */
 	@Test
 	public void testIndexSeatcher() throws IOException {
+		//索引存放的位置
 		Directory directory=FSDirectory.open(new File("indexDir/"));
 		IndexReader r=DirectoryReader.open(directory);
+		//通过indexSearcher 去检索索引目录
 		IndexSearcher indexSearcher=new IndexSearcher(r);
+		//query是一个搜索条件..，通过定义条件来进行查找...
+		//term 我需要根据那个字段进行检索，字段对应的值...
 		Query query= new TermQuery(new Term("title", "Hello"));
+		//搜索先搜索索引目录..
+		//找到符合query 条件的前面N条记录...
 		TopDocs topDocs = indexSearcher.search(query, 100);
 		System.out.println(topDocs.totalHits);
 		ScoreDoc[] scoreDocs = topDocs.scoreDocs;
