@@ -12,13 +12,27 @@ public class JunitTest {
 
 	private LuceneDao dao=new LuceneDao();
 	@Test
+	public void testUpdateIndex() throws IOException{
+		String fld="title";
+		String text="我是中国人2";
+		Article article=new Article(100, "hhhh", "aa", "mkfsg", "aaaaaaaaaaaaaaaaaa");
+		dao.updateIndex(fld, text, article);
+	}
+	@Test
+	public void testDelIndex() throws IOException{
+		dao.delIndex("content", "衣");
+	}
+	@Test
 	public void testAddIndex() throws IOException{
-		Article article=new Article(1, "我是中国人", "赵国欣", "www.baidu.com", "衣带渐宽终不悔，为伊消得人憔悴");
-		dao.addIndex(article);
+		Article article=null;
+		for(int i=0;i<10;i++){
+			article=new Article(i, "我是中国人"+i, "赵国欣"+i, "www.baidu.com"+i, "衣带渐宽终不悔，为伊消得人憔悴"+i);
+			dao.addIndex(article);
+		}
 	}
 	@Test
 	public void testQueryIndex() throws Exception{
-		String keyword="我是中国人";
+		String keyword="hhhh";
 		List<Article> queryIndex = dao.queryIndex(keyword,0,10);
 		for (Article article : queryIndex) {
 			System.out.println("Id: "+article.getId());

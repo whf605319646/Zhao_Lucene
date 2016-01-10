@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -25,11 +26,18 @@ public class LuceneDao {
 		indexWriter.addDocument(doc);
 		indexWriter.close();
 	}
-	public void updateIndex(){
-		
+	public void updateIndex(String fld,String text,Article article) throws IOException{
+		IndexWriter indexWriter=LuceneUtils.getIndexWriter();
+		Term term=new Term(fld, text);
+		Document doc = Entity2Document.entity2Document(article);
+		indexWriter.updateDocument(term, doc);
+		indexWriter.close();
 	}
-	public void delIndex(){
-		
+	public void delIndex(String fld,String text) throws IOException{
+		IndexWriter indexWriter=LuceneUtils.getIndexWriter();
+		Term term=new Term(fld, text);
+		indexWriter.deleteDocuments(term);
+		indexWriter.close();
 	}
 	public List<Article> queryIndex(String keywprd,int start,int rows) throws Exception{
 		IndexSearcher indexSearcher=LuceneUtils.getIndexSearcher();
