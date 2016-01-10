@@ -1,4 +1,4 @@
-package com.lucene.demo;
+package com.lucene.test;
 
 import java.io.File;
 import java.io.IOException;
