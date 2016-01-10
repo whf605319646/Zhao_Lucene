@@ -14,13 +14,13 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-public class LuceneUtil {
+public class LuceneUtils {
 
 	public static Directory directory = null;
 	public static IndexWriterConfig indexWriterConfig = null;
 
-	public static Version matchVersion = null;
-	public static Analyzer analyzer = null;
+	private static Version matchVersion = null;
+	private static Analyzer analyzer = null;
 
 	static {
 		try {
@@ -45,4 +45,13 @@ public class LuceneUtil {
 		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
 		return indexSearcher;
 	}
+
+	public static Version getMatchVersion() {
+		return matchVersion;
+	}
+
+	public static Analyzer getAnalyzer() {
+		return analyzer;
+	}
+	
 }
