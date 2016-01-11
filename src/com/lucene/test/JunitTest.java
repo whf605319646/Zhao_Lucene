@@ -25,7 +25,7 @@ public class JunitTest {
 	@Test
 	public void testAddIndex() throws IOException{
 		Article article=null;
-		for(int i=0;i<10;i++){
+		for(int i=11;i<12;i++){
 			article=new Article(i, "我是中国人"+i, "赵国欣"+i, "www.baidu.com"+i, "衣带渐宽终不悔，为伊消得人憔悴"+i);
 			dao.addIndex(article);
 		}

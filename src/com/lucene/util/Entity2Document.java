@@ -15,11 +15,12 @@ public class Entity2Document {
 		Document document = new Document();
 		
 		IndexableField idField = new IntField("id", article.getId(), Store.YES);
-		IndexableField titleField = new StringField("title", article.getTitle(), Store.YES);
+		IndexableField titleField = new TextField("title", article.getTitle(), Store.YES);
 		IndexableField authorField = new StringField("author", article.getAuthor(), Store.YES);
 		IndexableField linkField = new StringField("link", article.getLink(), Store.YES);
-		IndexableField contentField = new TextField("content", article.getContent(), Store.YES);
-
+		TextField contentField = new TextField("content", article.getContent(), Store.YES);
+		//设置权重值，默认为1f
+		//contentField.setBoost(4f);
 		document.add(idField);
 		document.add(titleField);
 		document.add(authorField);

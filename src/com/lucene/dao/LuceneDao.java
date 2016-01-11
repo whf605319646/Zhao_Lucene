@@ -39,11 +39,11 @@ public class LuceneDao {
 		indexWriter.deleteDocuments(term);
 		indexWriter.close();
 	}
-	public List<Article> queryIndex(String keywprd,int start,int rows) throws Exception{
+	public List<Article> queryIndex(String keyword,int start,int rows) throws Exception{
 		IndexSearcher indexSearcher=LuceneUtils.getIndexSearcher();
 		String fields[]={"title","content"};
 		QueryParser queryParser=new MultiFieldQueryParser(LuceneUtils.getMatchVersion(), fields, LuceneUtils.getAnalyzer());
-		Query query = queryParser.parse(keywprd);
+		Query query = queryParser.parse(keyword);
 		TopDocs topDocs = indexSearcher.search(query, start+rows);
 		int totalHits = topDocs.totalHits;
 		System.out.println("总记录数==="+totalHits);
